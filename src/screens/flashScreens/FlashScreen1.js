@@ -11,7 +11,7 @@ export default function FlashScreen1({ navigation }) {
       active={1}
       buttonText="Next"
       onNext={() => navigation.navigate("FlashScreen2")}
-      onSkip={() => navigation.replace("Login")}
+      onSkip={() => navigation.replace("AuthScreenStack")}
     />
   );
 }

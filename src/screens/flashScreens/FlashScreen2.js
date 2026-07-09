@@ -19,7 +19,7 @@ buttonText="Next"
 
 onNext={()=>navigation.navigate("FlashScreen3")}
 
-onSkip={()=>navigation.replace("Login")}
+onSkip={()=>navigation.replace("AuthScreenStack")}
 
 />
 

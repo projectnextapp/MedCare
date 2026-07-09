@@ -17,9 +17,9 @@ active={3}
 
 buttonText="Get Started"
 
-onNext={()=>navigation.replace("Login")}
+onNext={()=>navigation.replace("AuthScreenStack")}
 
-onSkip={()=>navigation.replace("Login")}
+onSkip={()=>navigation.replace("AuthScreenStack")}
 
 />
 

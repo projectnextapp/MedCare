@@ -1,10 +1,20 @@
 import React from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
+
+
+// Onboarding screens
 import OnboardingScreen from "../screens/flashScreens/OnboardingScreen";
 import FlashScreen1 from "../screens/flashScreens/FlashScreen1";
 import FlashScreen2 from "../screens/flashScreens/FlashScreen2";
 import FlashScreen3 from "../screens/flashScreens/FlashScreen3";
+
+//authScreens
+import LoginScreen from "../screens/authScreen/LoginScreen";
+import RegisterScreen from "../screens/authScreen/RegisterScreen";
+import ForgetPasswordScreen from "../screens/authScreen/ForgetPasswordScreen";
+
+
 
 const Stack = createStackNavigator();
 
@@ -42,12 +52,43 @@ function FlashScreenStack() {
   );
 }
 
+function AuthScreenStack() {
+  return (
+    <Stack.Navigator
+           screenOptions={{
+        animation: "fade",
+        animationDuration: 200,
+      }}
+    >
+       <Stack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RegisterScreen"
+        component={RegisterScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ForgetPasswordScreen"
+        component={ForgetPasswordScreen}
+        options={{ headerShown: false }}
+      />
+      
+    </Stack.Navigator>
+  );
+}
+
 export default function appNavigation() {
   return (
     <Stack.Navigator 
     //  initialRouteName="OnboardingScreen" 
      screenOptions={{ headerShown: false }}>
       <Stack.Screen name="FlashScreenStack" component={FlashScreenStack} />
+      <Stack.Screen name="AuthScreenStack" component={AuthScreenStack} />
     </Stack.Navigator>
+
+    
   );
 }

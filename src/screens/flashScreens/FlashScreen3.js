@@ -19,7 +19,7 @@ buttonText="Get Started"
 
 onNext={()=>navigation.replace("AuthScreenStack")}
 
-onSkip={()=>navigation.replace("AuthScreenStack")}
+onSkip={()=>navigation.replace("AuthScreenStack", {screen: "RegisterScreen"})}
 
 />
 

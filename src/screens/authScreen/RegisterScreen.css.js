@@ -95,12 +95,12 @@ fontWeight:"600"
  eyeIcon: {
     position: "absolute",
     right: 30,
-    top: "66%",
+    top: "60%",
   },
    eyeIcon2: {
     position: "absolute",
     right: 30,
-    top: "78%",
+    top: "70%",
   }
 
 });

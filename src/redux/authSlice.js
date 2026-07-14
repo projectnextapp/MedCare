@@ -67,28 +67,49 @@ export const verifyOTP = createAsyncThunk(
                 data
 
             );
-
+console.log("FULL RESPONSE:", response);
+      console.log("RESPONSE.DATA:", response.data);
             const auth = response.data.data;
 
-            await AsyncStorage.multiSet([
+            console.log("AsyncStorage:", AsyncStorage);
+console.log("multiSet:", AsyncStorage.multiSet);
+console.log("setItem:", AsyncStorage.setItem);
+            // await AsyncStorage.multiSet([
 
-                ["ACCESS_TOKEN", auth.accessToken],
+            //     ["ACCESS_TOKEN", auth.accessToken],
 
-                ["REFRESH_TOKEN", auth.refreshToken],
+            //     ["REFRESH_TOKEN", auth.refreshToken],
 
-                ["USER", JSON.stringify(auth.user)]
+            //     ["USER", JSON.stringify(auth.user)]
 
-            ]);
+            // ]);
+            await AsyncStorage.setItem(
+    "ACCESS_TOKEN",
+    auth.accessToken
+);
+
+await AsyncStorage.setItem(
+    "REFRESH_TOKEN",
+    auth.refreshToken
+);
+
+await AsyncStorage.setItem(
+    "USER",
+    JSON.stringify(auth.user)
+);
 
             return auth;
 
         }
 
         catch (error) {
+              console.log("ERROR:", error);
+      console.log("ERROR RESPONSE:", error.response?.data);
 
             return rejectWithValue(
-
-                error.response.data
+error.response?.data || {
+          message: error.message,
+        }
 
             );
 
@@ -96,6 +117,28 @@ export const verifyOTP = createAsyncThunk(
 
     }
 
+);
+
+// resend OTP
+export const resendOTP = createAsyncThunk(
+  "auth/resendOTP",
+
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await api.post(
+        "/auth/resend-otp",
+        {
+          email,
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data
+      );
+    }
+  }
 );
 
 //LOGIN

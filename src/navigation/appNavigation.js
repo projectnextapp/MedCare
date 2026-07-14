@@ -13,6 +13,9 @@ import FlashScreen3 from "../screens/flashScreens/FlashScreen3";
 import LoginScreen from "../screens/authScreen/LoginScreen";
 import RegisterScreen from "../screens/authScreen/RegisterScreen";
 import ForgetPasswordScreen from "../screens/authScreen/ForgetPasswordScreen";
+import VerifyOTPScreen from "../screens/authScreen/VerifyOTPScreen";
+
+import DashBoardScreens from "../screens/mainScreens/dashboardScreen/Dashboard";
 
 
 
@@ -75,10 +78,36 @@ function AuthScreenStack() {
         component={ForgetPasswordScreen}
         options={{ headerShown: false }}
       />
+       <Stack.Screen
+        name="VerifyOTPScreen"
+        component={VerifyOTPScreen}
+        options={{ headerShown: false }}
+      />
       
     </Stack.Navigator>
   );
 }
+
+//dashboard scren stack
+function MainScreenStack() {
+  return (
+    <Stack.Navigator
+           screenOptions={{
+        animation: "fade",
+        animationDuration: 200,
+      }}
+    >
+       <Stack.Screen
+        name="DashBoardScreens"
+        component={DashBoardScreens}
+        options={{ headerShown: false }}
+      />
+      
+      
+    </Stack.Navigator>
+  );
+}
+
 
 export default function appNavigation() {
   return (
@@ -87,6 +116,7 @@ export default function appNavigation() {
      screenOptions={{ headerShown: false }}>
       <Stack.Screen name="FlashScreenStack" component={FlashScreenStack} />
       <Stack.Screen name="AuthScreenStack" component={AuthScreenStack} />
+      <Stack.Screen name="MainScreenStack" component={MainScreenStack} />
     </Stack.Navigator>
 
     

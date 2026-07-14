@@ -145,7 +145,7 @@ Alert.alert(
 navigation.navigate(
 
 // "VerifyOTP",
-"LoginScreen",
+"VerifyOTPScreen",
 {
 
 email
@@ -159,7 +159,7 @@ email
 }
 return(
 
- <SafeAreaView style={{ flex: 1, backgroundColor: "#4880D8" }}>
+ <SafeAreaView style={{ flex: 1, backgroundColor: "#4880D8",  }}>
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={{ flexGrow: 1 }}

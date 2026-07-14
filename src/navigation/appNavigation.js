@@ -12,8 +12,9 @@ import FlashScreen3 from "../screens/flashScreens/FlashScreen3";
 //authScreens
 import LoginScreen from "../screens/authScreen/LoginScreen";
 import RegisterScreen from "../screens/authScreen/RegisterScreen";
-import ForgetPasswordScreen from "../screens/authScreen/ForgetPasswordScreen";
+import ForgotPasswordScreen from "../screens/authScreen/ForgotPasswordScreen";
 import VerifyOTPScreen from "../screens/authScreen/VerifyOTPScreen";
+import ResetPasswordScreen from "../screens/authScreen/ResetPasswordScreen";
 
 import DashBoardScreens from "../screens/mainScreens/dashboardScreen/Dashboard";
 
@@ -74,13 +75,18 @@ function AuthScreenStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="ForgetPasswordScreen"
-        component={ForgetPasswordScreen}
+        name="ForgotPasswordScreen"
+        component={ForgotPasswordScreen}
         options={{ headerShown: false }}
       />
        <Stack.Screen
         name="VerifyOTPScreen"
         component={VerifyOTPScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ResetPasswordScreen"
+        component={ResetPasswordScreen}
         options={{ headerShown: false }}
       />
       

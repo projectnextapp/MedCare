@@ -336,7 +336,7 @@ Register
 
 <TouchableOpacity
 
-onPress={()=>navigation.navigate("Login")}
+onPress={()=>navigation.navigate("LoginScreen")}
 
 
 

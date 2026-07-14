@@ -78,7 +78,7 @@ const VerifyOTPScreen = ({ navigation, route }) => {
         otp: code,
       })
     );
- console.log("Verify Result:", result);
+//  console.log("Verify Result:", result);
 
     if (verifyOTP.fulfilled.match(result)) {
       Alert.alert(

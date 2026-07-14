@@ -67,13 +67,13 @@ export const verifyOTP = createAsyncThunk(
                 data
 
             );
-console.log("FULL RESPONSE:", response);
-      console.log("RESPONSE.DATA:", response.data);
+// console.log("FULL RESPONSE:", response);
+//       console.log("RESPONSE.DATA:", response.data);
             const auth = response.data.data;
 
-            console.log("AsyncStorage:", AsyncStorage);
-console.log("multiSet:", AsyncStorage.multiSet);
-console.log("setItem:", AsyncStorage.setItem);
+//             console.log("AsyncStorage:", AsyncStorage);
+// console.log("multiSet:", AsyncStorage.multiSet);
+// console.log("setItem:", AsyncStorage.setItem);
             // await AsyncStorage.multiSet([
 
             //     ["ACCESS_TOKEN", auth.accessToken],
@@ -103,8 +103,8 @@ await AsyncStorage.setItem(
         }
 
         catch (error) {
-              console.log("ERROR:", error);
-      console.log("ERROR RESPONSE:", error.response?.data);
+    //           console.log("ERROR:", error);
+    //   console.log("ERROR RESPONSE:", error.response?.data);
 
             return rejectWithValue(
 error.response?.data || {
@@ -160,15 +160,29 @@ export const loginUser = createAsyncThunk(
 
             const auth = response.data.data;
 
-            await AsyncStorage.multiSet([
+            // await AsyncStorage.multiSet([
 
-                ["ACCESS_TOKEN", auth.accessToken],
+            //     ["ACCESS_TOKEN", auth.accessToken],
 
-                ["REFRESH_TOKEN", auth.refreshToken],
+            //     ["REFRESH_TOKEN", auth.refreshToken],
 
-                ["USER", JSON.stringify(auth.user)]
+            //     ["USER", JSON.stringify(auth.user)]
 
-            ]);
+            // ]);
+             await AsyncStorage.setItem(
+    "ACCESS_TOKEN",
+    auth.accessToken
+);
+
+await AsyncStorage.setItem(
+    "REFRESH_TOKEN",
+    auth.refreshToken
+);
+
+await AsyncStorage.setItem(
+    "USER",
+    JSON.stringify(auth.user)
+);
 
             return auth;
 

@@ -47,6 +47,8 @@ const [password,setPassword]=useState("");
 
 const [confirmPassword,setConfirmPassword]=useState("");
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [secureTextEntryCP, setSecureTextEntryCP] = useState(true);
+
 
 const validateForm=()=>{
 
@@ -246,14 +248,14 @@ value={dob}
 onChangeText={setDob}
 
 />
-
+<View style={styles.passwordContainer}>
 <TextInput
 
 placeholder="Password"
 
 secureTextEntry={secureTextEntry}
 
-style={styles.input}
+style={styles.passwordInput}
 
 value={password}
 
@@ -270,14 +272,15 @@ onChangeText={setPassword}
                   color="#4880D8"
                 />
               </TouchableOpacity>
-
+              </View>
+<View style={styles.passwordContainer}>
 <TextInput
 
 placeholder="Confirm Password"
 
-secureTextEntry={secureTextEntry}
+secureTextEntry={secureTextEntryCP}
 
-style={styles.input}
+style={styles.passwordInput}
 
 value={confirmPassword}
 
@@ -285,15 +288,16 @@ onChangeText={setConfirmPassword}
 
 />
 <TouchableOpacity
-                onPress={() => setSecureTextEntry(!secureTextEntry)}
+                onPress={() => setSecureTextEntryCP(!secureTextEntryCP)}
                 style={styles.eyeIcon2}
               >
                 <MaterialCommunityIcons
-                  name={secureTextEntry ? "eye-off" : "eye"}
+                  name={secureTextEntryCP ? "eye-off" : "eye"}
                   size={22}
                   color="#4880D8"
                 />
               </TouchableOpacity>
+               </View>
 
 {
 

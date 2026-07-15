@@ -147,9 +147,9 @@ const LoginScreen = () => {
 
           {/* Email */}
 
-          <Text style={styles.label}>
+          {/* <Text style={styles.label}>
             Email
-          </Text>
+          </Text> */}
 
           <TextInput
             placeholder="Enter your email"
@@ -164,9 +164,9 @@ const LoginScreen = () => {
 
           {/* Password */}
 
-          <Text style={styles.label}>
+          {/* <Text style={styles.label}>
             Password
-          </Text>
+          </Text> */}
 
           <View style={styles.passwordContainer}>
             <TextInput

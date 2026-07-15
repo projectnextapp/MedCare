@@ -501,7 +501,7 @@ const ResetPasswordScreen = ({ navigation, route }) => {
           <TouchableOpacity
             style={styles.loginContainer}
             onPress={() =>
-              navigation.navigate("Login")
+              navigation.navigate("LoginScreen")
             }
           >
 

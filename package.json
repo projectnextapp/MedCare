@@ -4,7 +4,10 @@
   "version": "1.0.0",
   "dependencies": {
     "@expo/ui": "~0.2.0-beta.9",
+    "@expo/vector-icons": "^15.0.3",
     "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-community/datetimepicker": "8.4.4",
+    "@react-native-vector-icons/feather": "^13.1.2",
     "@react-native-vector-icons/material-icons": "^13.1.2",
     "@react-navigation/bottom-tabs": "^7.18.8",
     "@react-navigation/drawer": "^7.12.8",
@@ -25,6 +28,7 @@
     "expo-symbols": "~1.0.8",
     "expo-system-ui": "~6.0.9",
     "expo-web-browser": "~15.0.11",
+    "generate-password": "^1.7.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.5",

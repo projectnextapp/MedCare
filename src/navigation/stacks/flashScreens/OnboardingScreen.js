@@ -21,7 +21,6 @@ const OnboardingScreen = ({navigation}) => {
       <View style={styles.topVectorCircle1} />
       <View style={styles.topVectorCircle2} />
       <View style={styles.lineDoodleContainer}>
-        
         <View style={styles.doodleLoop} />
       </View>
 
@@ -31,13 +30,12 @@ const OnboardingScreen = ({navigation}) => {
           <View style={styles.logoContainer}>
             <View style={styles.logoIcon}>
               {/* <Text style={styles.logoIconText}>MC</Text> */}
-              
-  <Image 
-    source={require("../../../assets/images/splash3.png")} 
-    style={styles.logoImage}
-    resizeMode="contain"
-  />
 
+              <Image
+                source={require("../../../../assets/images/splash3.png")}
+                style={styles.logoImage}
+                resizeMode="contain"
+              />
             </View>
             <Text style={styles.brandName}>MedCare</Text>
           </View>
@@ -65,21 +63,27 @@ const OnboardingScreen = ({navigation}) => {
             {/* Doctors Avatars Row */}
             <View style={styles.avatarRow}>
               <Image
-                source={{ uri: "https://images.unsplash.com/photo-1606787364410-947e10173148?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }}
+                source={{
+                  uri: "https://images.unsplash.com/photo-1606787364410-947e10173148?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                }}
                 style={styles.avatar}
               />
               <Image
-                source={{ uri: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }}
+                source={{
+                  uri: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                }}
                 style={[styles.avatar, styles.middleAvatar]}
               />
               <Image
-                source={{ uri: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }}
+                source={{
+                  uri: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                }}
                 style={styles.avatar}
               />
             </View>
           </View>
 
-            {/* Glassmorphic Side Overlay */}
+          {/* Glassmorphic Side Overlay */}
           <View style={styles.glassOverlayCurve} />
         </View>
 
@@ -88,8 +92,10 @@ const OnboardingScreen = ({navigation}) => {
         {/* Bottom Navigation Section */}
         <View style={styles.bottomBar}>
           <TouchableOpacity
-          onPress={()=>navigation.navigate("FlashScreen1")}
-          style={styles.nextButton} activeOpacity={0.8}>
+            onPress={() => navigation.navigate("Flash1")}
+            style={styles.nextButton}
+            activeOpacity={0.8}
+          >
             <Text style={styles.arrowText}>↗</Text>
           </TouchableOpacity>
         </View>

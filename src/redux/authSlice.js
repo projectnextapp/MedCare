@@ -4,119 +4,83 @@ import api from "../services/api";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
 const initialState = {
+  user: null,
 
-    user: null,
+  accessToken: null,
 
-    accessToken: null,
+  refreshToken: null,
 
-    refreshToken: null,
+  isAuthenticated: false,
 
-    loading: false,
+  isInitialized: false,
 
-    error: null,
+  loading: false,
 
-    success: false,
+  success: false,
 
-    isAuthenticated: false,
-
+  error: null,
 };
 
 export const registerUser = createAsyncThunk(
+  "auth/register",
 
-    "auth/register",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await api.post("/auth/register", userData);
 
-    async (userData, { rejectWithValue }) => {
-
-        try {
-
-            const response = await api.post(
-                "/auth/register",
-                userData
-            );
-
-            return response.data;
-
-        } catch (error) {
-
-            return rejectWithValue(
-                error.response.data
-            );
-
-        }
-
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
-
+  },
 );
-
 
 ///verifyOTP
 export const verifyOTP = createAsyncThunk(
+  "auth/verifyOTP",
 
-    "auth/verifyOTP",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await api.post(
+        "/auth/verify-otp",
 
-    async (data, { rejectWithValue }) => {
+        data,
+      );
+      // console.log("FULL RESPONSE:", response);
+      //       console.log("RESPONSE.DATA:", response.data);
+      const auth = response.data.data;
 
-        try {
+      //             console.log("AsyncStorage:", AsyncStorage);
+      // console.log("multiSet:", AsyncStorage.multiSet);
+      // console.log("setItem:", AsyncStorage.setItem);
+      // await AsyncStorage.multiSet([
 
-            const response = await api.post(
+      //     ["ACCESS_TOKEN", auth.accessToken],
 
-                "/auth/verify-otp",
+      //     ["REFRESH_TOKEN", auth.refreshToken],
 
-                data
+      //     ["USER", JSON.stringify(auth.user)]
 
-            );
-// console.log("FULL RESPONSE:", response);
-//       console.log("RESPONSE.DATA:", response.data);
-            const auth = response.data.data;
+      // ]);
+      await AsyncStorage.setItem("ACCESS_TOKEN", auth.accessToken);
 
-//             console.log("AsyncStorage:", AsyncStorage);
-// console.log("multiSet:", AsyncStorage.multiSet);
-// console.log("setItem:", AsyncStorage.setItem);
-            // await AsyncStorage.multiSet([
+      await AsyncStorage.setItem("REFRESH_TOKEN", auth.refreshToken);
 
-            //     ["ACCESS_TOKEN", auth.accessToken],
+      await AsyncStorage.setItem("USER", JSON.stringify(auth.user));
 
-            //     ["REFRESH_TOKEN", auth.refreshToken],
+      return auth;
+    } catch (error) {
+      //           console.log("ERROR:", error);
+      //   console.log("ERROR RESPONSE:", error.response?.data);
 
-            //     ["USER", JSON.stringify(auth.user)]
-
-            // ]);
-            await AsyncStorage.setItem(
-    "ACCESS_TOKEN",
-    auth.accessToken
-);
-
-await AsyncStorage.setItem(
-    "REFRESH_TOKEN",
-    auth.refreshToken
-);
-
-await AsyncStorage.setItem(
-    "USER",
-    JSON.stringify(auth.user)
-);
-
-            return auth;
-
-        }
-
-        catch (error) {
-    //           console.log("ERROR:", error);
-    //   console.log("ERROR RESPONSE:", error.response?.data);
-
-            return rejectWithValue(
-error.response?.data || {
+      return rejectWithValue(
+        error.response?.data || {
           message: error.message,
-        }
-
-            );
-
-        }
-
+        },
+      );
     }
-
+  },
 );
 
 // resend OTP
@@ -125,315 +89,411 @@ export const resendOTP = createAsyncThunk(
 
   async (email, { rejectWithValue }) => {
     try {
-      const response = await api.post(
-        "/auth/resend-otp",
-        {
-          email,
-        }
-      );
+      const response = await api.post("/auth/resend-otp", {
+        email,
+      });
 
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data
-      );
+      return rejectWithValue(error.response?.data);
     }
-  }
+  },
 );
 
 //LOGIN
+// // LOGIN
 export const loginUser = createAsyncThunk(
+  "auth/login",
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const response = await api.post("/auth/login", credentials);
 
-    "auth/login",
+      // Handles both response formats: response.data.data OR response.data
+      const auth = response.data?.data || response.data;
 
-    async (credentials, { rejectWithValue }) => {
+      if (!auth?.accessToken) {
+        return rejectWithValue({
+          message: "Invalid response format from server.",
+        });
+      }
 
-        try {
+      await AsyncStorage.setItem("ACCESS_TOKEN", auth.accessToken);
+      await AsyncStorage.setItem("REFRESH_TOKEN", auth.refreshToken);
+      await AsyncStorage.setItem("USER", JSON.stringify(auth.user));
 
-            const response = await api.post(
-
-                "/auth/login",
-
-                credentials
-
-            );
-
-            const auth = response.data.data;
-
-            // await AsyncStorage.multiSet([
-
-            //     ["ACCESS_TOKEN", auth.accessToken],
-
-            //     ["REFRESH_TOKEN", auth.refreshToken],
-
-            //     ["USER", JSON.stringify(auth.user)]
-
-            // ]);
-             await AsyncStorage.setItem(
-    "ACCESS_TOKEN",
-    auth.accessToken
-);
-
-await AsyncStorage.setItem(
-    "REFRESH_TOKEN",
-    auth.refreshToken
-);
-
-await AsyncStorage.setItem(
-    "USER",
-    JSON.stringify(auth.user)
-);
-
-            return auth;
-
-        }
-
-        catch (error) {
-
-            return rejectWithValue(
-
-                error.response.data
-
-            );
-
-        }
-
+      return auth;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || {
+          message: error.message || "Login failed. Please try again.",
+        },
+      );
     }
+  },
+);
 
+// Redux manage the authentication state
+export const loadStoredUser = createAsyncThunk(
+  "auth/loadStoredUser",
+
+  async (_, { rejectWithValue }) => {
+    try {
+      const accessToken = await AsyncStorage.getItem("ACCESS_TOKEN");
+
+      const refreshToken = await AsyncStorage.getItem("REFRESH_TOKEN");
+
+      const user = await AsyncStorage.getItem("USER");
+
+      if (!accessToken || !user) {
+        return null;
+      }
+
+      return {
+        accessToken,
+
+        refreshToken,
+
+        user: JSON.parse(user),
+      };
+    } catch (error) {
+      return rejectWithValue({
+        message: error.message,
+      });
+    }
+  },
 );
 
 //Forgot Password
 export const forgotPassword = createAsyncThunk(
+  "auth/forgotPassword",
 
-    "auth/forgotPassword",
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await api.post(
+        "/auth/forgot-password",
 
-    async (email, { rejectWithValue }) => {
+        email,
+      );
 
-        try {
-
-            const response = await api.post(
-
-                "/auth/forgot-password",
-
-                email
-
-            );
-
-            return response.data;
-
-        }
-
-        catch (error) {
-
-            return rejectWithValue(
-
-                error.response.data
-
-            );
-
-        }
-
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
-
+  },
 );
 
 // reset password
 
 export const resetPassword = createAsyncThunk(
+  "auth/resetPassword",
 
-    "auth/resetPassword",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await api.post(
+        "/auth/reset-password",
 
-    async (data, { rejectWithValue }) => {
+        data,
+      );
 
-        try {
-
-            const response = await api.post(
-
-                "/auth/reset-password",
-
-                data
-
-            );
-
-            return response.data;
-
-        }
-
-        catch (error) {
-
-            return rejectWithValue(
-
-                error.response.data
-
-            );
-
-        }
-
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
-
+  },
 );
 
 //logout
 
 export const logoutUser = createAsyncThunk(
+  "auth/logout",
 
-    "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      await AsyncStorage.multiRemove(["ACCESS_TOKEN", "REFRESH_TOKEN", "USER"]);
 
-    async (_, { rejectWithValue }) => {
-
-        try {
-
-            await AsyncStorage.multiRemove([
-
-                "ACCESS_TOKEN",
-
-                "REFRESH_TOKEN",
-
-                "USER"
-
-            ]);
-
-            return true;
-
-        }
-
-        catch (error) {
-
-            return rejectWithValue(error);
-
-        }
-
+      return true;
+    } catch (error) {
+      return rejectWithValue(error);
     }
-
+  },
 );
 
 // slice
 const authSlice = createSlice({
+  name: "auth",
 
-    name: "auth",
+  initialState,
 
-    initialState,
-
-    reducers: {
-
-        clearError(state) {
-
-            state.error = null;
-
-        }
-
+  reducers: {
+    clearError(state) {
+      state.error = null;
     },
 
-    extraReducers: (builder) => {
+    clearSuccess(state) {
+      state.success = false;
+    },
 
-        builder
+    clearAuth(state) {
+      state.user = null;
 
-        // LOGIN
+      state.accessToken = null;
 
-        .addCase(loginUser.pending, (state) => {
+      state.refreshToken = null;
 
-            state.loading = true;
+      state.isAuthenticated = false;
 
-            state.error = null;
+      state.success = false;
 
-        })
+      state.error = null;
+    },
 
-        .addCase(loginUser.fulfilled, (state, action) => {
+    setCredentials(state, action) {
+      state.user = action.payload.user;
 
-            state.loading = false;
+      state.accessToken = action.payload.accessToken;
 
-            state.success = true;
+      state.refreshToken = action.payload.refreshToken;
 
-            state.user = action.payload.user;
+      state.isAuthenticated = true;
+    },
+  },
 
-            state.accessToken = action.payload.accessToken;
+  extraReducers: (builder) => {
+    builder
 
-            state.refreshToken = action.payload.refreshToken;
+      // LOGIN
 
-            state.isAuthenticated = true;
+      // ===========================================
+      // LOGIN
+      // ===========================================
 
-        })
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
 
-        .addCase(loginUser.rejected, (state, action) => {
+        state.error = null;
 
-            state.loading = false;
+        state.success = false;
+      })
 
-            state.error = action.payload?.message;
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
 
-        })
+        state.success = true;
 
-        // REGISTER
+        state.user = action.payload.user;
 
-        .addCase(registerUser.pending, (state) => {
+        state.accessToken = action.payload.accessToken;
 
-            state.loading = true;
+        state.refreshToken = action.payload.refreshToken;
 
-        })
+        state.isAuthenticated = true;
+      })
 
-        .addCase(registerUser.fulfilled, (state) => {
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
 
-            state.loading = false;
+        state.success = false;
 
-            state.success = true;
+        state.error = action.payload?.message;
+      })
 
-        })
+      // loading stord users
+      // ===========================================
+      // LOAD STORED USER
+      // ===========================================
 
-        .addCase(registerUser.rejected, (state, action) => {
+      .addCase(loadStoredUser.pending, (state) => {
+        state.loading = true;
+      })
 
-            state.loading = false;
+      .addCase(loadStoredUser.fulfilled, (state, action) => {
+        state.loading = false;
 
-            state.error = action.payload?.message;
+        state.isInitialized = true;
 
-        })
+        if (action.payload) {
+          state.user = action.payload.user;
 
-        // VERIFY OTP
+          state.accessToken = action.payload.accessToken;
 
-        .addCase(verifyOTP.pending, (state) => {
+          state.refreshToken = action.payload.refreshToken;
 
-            state.loading = true;
+          state.isAuthenticated = true;
+        }
+      })
 
-        })
+      .addCase(loadStoredUser.rejected, (state, action) => {
+        state.loading = false;
 
-        .addCase(verifyOTP.fulfilled, (state, action) => {
+        state.isInitialized = true;
 
-            state.loading = false;
+        state.error = action.payload?.message;
+      })
 
-            state.user = action.payload.user;
+      // REGISTER
 
-            state.accessToken = action.payload.accessToken;
+      // ===========================================
+      // REGISTER
+      // ===========================================
 
-            state.refreshToken = action.payload.refreshToken;
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
 
-            state.isAuthenticated = true;
+        state.error = null;
+      })
 
-        })
+      .addCase(registerUser.fulfilled, (state) => {
+        state.loading = false;
 
-        .addCase(verifyOTP.rejected, (state, action) => {
+        state.success = true;
+      })
 
-            state.loading = false;
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
 
-            state.error = action.payload?.message;
+        state.success = false;
 
-        })
+        state.error = action.payload?.message;
+      })
 
-        // LOGOUT
+      // VERIFY OTP
 
-        .addCase(logoutUser.fulfilled, (state) => {
+      // ===========================================
+      // VERIFY OTP
+      // ===========================================
 
-            state.user = null;
+      .addCase(verifyOTP.pending, (state) => {
+        state.loading = true;
 
-            state.accessToken = null;
+        state.error = null;
+      })
 
-            state.refreshToken = null;
+      .addCase(verifyOTP.fulfilled, (state, action) => {
+        state.loading = false;
 
-            state.isAuthenticated = false;
+        state.success = true;
 
-        });
+        state.user = action.payload.user;
 
-    }
+        state.accessToken = action.payload.accessToken;
 
+        state.refreshToken = action.payload.refreshToken;
+
+        state.isAuthenticated = true;
+      })
+
+      .addCase(verifyOTP.rejected, (state, action) => {
+        state.loading = false;
+
+        state.success = false;
+
+        state.error = action.payload?.message;
+      })
+
+      // ===========================================
+      // FORGOT PASSWORD
+      // ===========================================
+
+      .addCase(forgotPassword.pending, (state) => {
+        state.loading = true;
+
+        state.error = null;
+      })
+
+      .addCase(forgotPassword.fulfilled, (state) => {
+        state.loading = false;
+
+        state.success = true;
+      })
+
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.loading = false;
+
+        state.success = false;
+
+        state.error = action.payload?.message;
+      })
+
+      // ===========================================
+      // RESEND OTP
+      // ===========================================
+
+      .addCase(resendOTP.pending, (state) => {
+        state.loading = true;
+
+        state.error = null;
+      })
+
+      .addCase(resendOTP.fulfilled, (state) => {
+        state.loading = false;
+
+        state.success = true;
+      })
+
+      .addCase(resendOTP.rejected, (state, action) => {
+        state.loading = false;
+
+        state.success = false;
+
+        state.error = action.payload?.message;
+      })
+
+      // ===========================================
+      // RESET PASSWORD
+      // ===========================================
+
+      .addCase(resetPassword.pending, (state) => {
+        state.loading = true;
+
+        state.error = null;
+      })
+
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.loading = false;
+
+        state.success = true;
+      })
+
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.loading = false;
+
+        state.success = false;
+
+        state.error = action.payload?.message;
+      })
+
+      // LOGOUT
+
+      // ===========================================
+      // LOGOUT
+      // ===========================================
+
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user = null;
+
+        state.accessToken = null;
+
+        state.refreshToken = null;
+
+        state.loading = false;
+
+        state.success = false;
+
+        state.error = null;
+
+        state.isAuthenticated = false;
+      });
+  },
 });
 
-export const { clearError } = authSlice.actions;
+export const {
+  clearError,
+
+  clearSuccess,
+
+  clearAuth,
+
+  setCredentials,
+} = authSlice.actions;
 
 export default authSlice.reducer;

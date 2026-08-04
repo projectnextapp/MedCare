@@ -1,26 +1,30 @@
-import React, {useState, useEffect} from "react";
-import { View, Text, BackHandler, TextInput,
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  BackHandler,
+  TextInput,
   TouchableOpacity,
   ActivityIndicator,
   Alert,
   Image,
-  ScrollView, } from "react-native";
+  ScrollView,
+} from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CheckBox from "expo-checkbox";
 
-
-import { loginUser, clearError } from "../../redux/authSlice";
+// import { loginUser, clearError } from "../../redux/authSlice";
+import { loginUser, clearError } from "../../../redux/authSlice";
 
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./LoginScreen.css";
 
-
 const LoginScreen = () => {
   const navigation = useNavigation();
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // Intercept the Android hardware back button
   useFocusEffect(
     React.useCallback(() => {
@@ -29,23 +33,24 @@ const LoginScreen = () => {
           navigation.goBack();
         } else {
           // Navigates safely out of the secondary flash sub-stack
-          navigation.navigate("FlashScreenStack"); 
+          navigation.navigate("FlashScreensStack");
         }
-        return true; 
+        return true;
       };
 
       // 1. Store the event listener registration sequence into a variable
-      const subscription = BackHandler.addEventListener("hardwareBackPress", onBackPress);
+      const subscription = BackHandler.addEventListener(
+        "hardwareBackPress",
+        onBackPress,
+      );
 
       // 2. Clear out the reference safely using the modern subscription object
       return () => subscription.remove();
-    }, [navigation])
+    }, [navigation]),
   );
 
-
-
- const { loading, error, isAuthenticated } = useSelector(
-    (state) => state.auth
+  const { loading, error, isAuthenticated } = useSelector(
+    (state) => state.auth,
   );
 
   const [email, setEmail] = useState("");
@@ -67,30 +72,24 @@ const LoginScreen = () => {
     if (isAuthenticated) {
       navigation.reset({
         index: 0,
-        routes: [{ name: "MainScreenStack", 
-      params: { screen: "DashBoardScreens" } }],
+        routes: [
+          { name: "MainScreenStack", params: { screen: "DashBoardScreens" } },
+        ],
       });
     }
   }, [isAuthenticated]);
 
   const validateForm = () => {
     if (!email || !password) {
-      Alert.alert(
-        "Validation",
-        "Please enter your email and password."
-      );
+      Alert.alert("Validation", "Please enter your email and password.");
 
       return false;
     }
 
-    const emailRegex =
-      /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
     if (!emailRegex.test(email)) {
-      Alert.alert(
-        "Validation",
-        "Enter a valid email."
-      );
+      Alert.alert("Validation", "Enter a valid email.");
 
       return false;
     }
@@ -105,9 +104,8 @@ const LoginScreen = () => {
       loginUser({
         email,
         password,
-      })
+      }),
     );
-
 
     if (loginUser.rejected.match(result)) {
       return;
@@ -124,26 +122,20 @@ const LoginScreen = () => {
 
         <View style={styles.header}>
           <Image
-            source={require("../../../assets/images/logo1.png")}
+            source={require("../../../../assets/images/logo1.png")}
             style={styles.logo}
             resizeMode="contain"
           />
 
-          <Text style={styles.logoText}>
-            MEDCARE
-          </Text>
+          <Text style={styles.logoText}>MEDCARE</Text>
         </View>
 
         {/* Form */}
 
         <View style={styles.formContainer}>
-          <Text style={styles.title}>
-            Welcome Back
-          </Text>
+          <Text style={styles.title}>Welcome Back</Text>
 
-          <Text style={styles.subtitle}>
-            Login to continue
-          </Text>
+          <Text style={styles.subtitle}>Login to continue</Text>
 
           {/* Email */}
 
@@ -178,17 +170,9 @@ const LoginScreen = () => {
               editable={!loading}
             />
 
-            <TouchableOpacity
-              onPress={() =>
-                setShowPassword(!showPassword)
-              }
-            >
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <MaterialCommunityIcons
-                name={
-                  showPassword
-                    ? "eye"
-                    : "eye-off"
-                }
+                name={showPassword ? "eye" : "eye-off"}
                 size={22}
                 color="#4880D8"
               />
@@ -202,28 +186,16 @@ const LoginScreen = () => {
               <CheckBox
                 value={rememberMe}
                 onValueChange={setRememberMe}
-                color={
-                  rememberMe
-                    ? "#4880D8"
-                    : undefined
-                }
+                color={rememberMe ? "#4880D8" : undefined}
               />
 
-              <Text style={styles.remember}>
-                Remember Me
-              </Text>
+              <Text style={styles.remember}>Remember Me</Text>
             </View>
 
             <TouchableOpacity
-              onPress={() =>
-                navigation.navigate(
-                  "ForgotPasswordScreen"
-                )
-              }
+              onPress={() => navigation.navigate("ForgotPasswordScreen")}
             >
-              <Text style={styles.forgot}>
-                Forgot Password?
-              </Text>
+              <Text style={styles.forgot}>Forgot Password?</Text>
             </TouchableOpacity>
           </View>
 
@@ -237,25 +209,16 @@ const LoginScreen = () => {
             {loading ? (
               <ActivityIndicator color="#FFF" />
             ) : (
-              <Text style={styles.buttonText}>
-                Login
-              </Text>
+              <Text style={styles.buttonText}>Login</Text>
             )}
           </TouchableOpacity>
 
           {/* Register */}
 
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate(
-                "RegisterScreen"
-              )
-            }
+            onPress={() => navigation.navigate("RegisterScreen")}
           >
-            <Text style={styles.register}>
-              Don't have an account?
-              Register
-            </Text>
+            <Text style={styles.register}>Don't have an account? Register</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

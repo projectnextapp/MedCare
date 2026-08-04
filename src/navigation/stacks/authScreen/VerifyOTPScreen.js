@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
-import { verifyOTP,resendOTP, } from "../../redux/authSlice";
+import { verifyOTP,resendOTP, } from "../../../redux/authSlice";
 import styles from "./VerifyOTPScreen.css";
 
 const VerifyOTPScreen = ({ navigation, route }) => {

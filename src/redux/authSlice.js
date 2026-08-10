@@ -19,6 +19,15 @@ const initialState = {
 
   success: false,
 
+  // Per-flow success flags — use these instead of the shared `success`
+  // so unrelated screens don't react to each other's completions.
+  registerSuccess: false,
+  verifyOTPSuccess: false,
+  loginSuccess: false,
+  forgotPasswordSuccess: false,
+  resendOTPSuccess: false,
+  resetPasswordSuccess: false,
+
   error: null,
 };
 
@@ -120,6 +129,9 @@ export const loginUser = createAsyncThunk(
       await AsyncStorage.setItem("ACCESS_TOKEN", auth.accessToken);
       await AsyncStorage.setItem("REFRESH_TOKEN", auth.refreshToken);
       await AsyncStorage.setItem("USER", JSON.stringify(auth.user));
+
+      const token = await AsyncStorage.getItem("ACCESS_TOKEN");
+      console.log("Saved Token:", token);
 
       return auth;
     } catch (error) {
@@ -255,6 +267,31 @@ const authSlice = createSlice({
       state.refreshToken = action.payload.refreshToken;
 
       state.isAuthenticated = true;
+    },
+
+    // New: clear individual per-flow success flags
+    clearRegisterSuccess(state) {
+      state.registerSuccess = false;
+    },
+
+    clearVerifyOTPSuccess(state) {
+      state.verifyOTPSuccess = false;
+    },
+
+    clearLoginSuccess(state) {
+      state.loginSuccess = false;
+    },
+
+    clearForgotPasswordSuccess(state) {
+      state.forgotPasswordSuccess = false;
+    },
+
+    clearResendOTPSuccess(state) {
+      state.resendOTPSuccess = false;
+    },
+
+    clearResetPasswordSuccess(state) {
+      state.resetPasswordSuccess = false;
     },
   },
 

@@ -9,9 +9,13 @@ import DashBoardScreenStack from "../../screens/mainScreens/dashboardScreen/Dash
 import DoctorListScreen from "../../screens/mainScreens/doctorsScreen/DoctorListScreen";
 // import DoctorDetailsScreen from "../../screens/mainScreens/doctorsScreen/DoctorDetailsScreen";
 import DoctorDetailsScreen from "../../screens/mainScreens/doctorsScreen/DoctorDetailsScreen";
-import AppointmentScreen from "../../screens/mainScreens/appointmentScreen/AppointmentScreen";
+import BookAppointmentScreen from "../../screens/mainScreens/appointmentScreen/BookAppointmentScreen";
 import NotificationScreen from "../../screens/mainScreens/notificationScreen/NotificationScreen";
-import ProfileScreen from "../../screens/mainScreens/profileScreen/ProfileScreen";
+// import ProfileScreen from "../../screens/profile/ProfileScreen";
+import ProfileStack from "../stacks/ProfileStack";
+
+import MyAppointmentsStack from "../stacks/MyAppointmentsStack";
+
 
 const TabNavigator = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -25,9 +29,17 @@ const DoctorStack = () => {
         name="DoctorDetailsScreen"
         component={DoctorDetailsScreen}
       />
+      <Stack.Screen
+        name="BookAppointmentScreen"
+        component={BookAppointmentScreen}
+      />
     </Stack.Navigator>
   );
 };
+
+
+
+  
 
 const PatientTabs = () => {
   return (
@@ -111,12 +123,18 @@ const PatientTabs = () => {
       {/* 2. Use DoctorStack instead of DoctorListScreen */}
       <TabNavigator.Screen name="Doctors" component={DoctorStack} />
 
-      <TabNavigator.Screen name="Appointments" component={AppointmentScreen} />
+      <TabNavigator.Screen
+        name="Appointments"
+        component={MyAppointmentsStack}
+        options={{
+          title: "Appointment",
+        }}
+      />
       <TabNavigator.Screen
         name="Notifications"
         component={NotificationScreen}
       />
-      <TabNavigator.Screen name="Profile" component={ProfileScreen} />
+      <TabNavigator.Screen name="Profile" component={ProfileStack} />
     </TabNavigator.Navigator>
   );
 };

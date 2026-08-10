@@ -24,7 +24,7 @@ const RootNavigator = () => {
   const {
     user,
 
-    loading,
+    // loading,
 
     isAuthenticated,
 
@@ -36,7 +36,8 @@ const RootNavigator = () => {
   }, [dispatch]);
 
   // Wait while checking stored login
-  if (!isInitialized || loading) {
+  // if (!isInitialized || loading) {
+    if (!isInitialized ) {
     return (
       <View
         style={{
@@ -67,8 +68,8 @@ const RootNavigator = () => {
 
   // Logged in
   switch (user?.role) {
-    // case "patient":
-    //   return <PatientTabs />;
+    case "patient":
+      return <PatientTabs />;
 
     case "doctor":
       return <DoctorTabs />;

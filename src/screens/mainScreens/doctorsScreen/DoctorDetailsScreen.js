@@ -38,14 +38,6 @@ const DoctorDetailsScreen = ({ navigation, route }) => {
   console.log("doctor:", doctor);
   console.log("error:", error);
 
-  // useEffect(() => {
-  //   dispatch(fetchDoctor(doctorId));
-  //   console.log("doctorId:", doctorId);
-
-  //   return () => {
-  //     dispatch(clearSelectedDoctor());
-  //   };
-  // }, []);
   useEffect(() => {
     console.log("Fetching doctor:", doctorId);
 
@@ -192,11 +184,38 @@ const DoctorDetailsScreen = ({ navigation, route }) => {
         {/* Button */}
 
         {/* book appointment button for patient */}
+        {/* {user?.role === "patient" && (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate("BookAppointmentStack", {
+                doctorId: doctor._id,
+              })
+            }
+          >
+            <Text style={styles.buttonText}>Book Appointment</Text>
+          </TouchableOpacity>
+        )} */}
+        {/* book appointment button for patient */}
+        {/* {user?.role === "patient" && (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate("Doctors", {
+                screen: "BookAppointmentScreen",
+                params: { doctorId: doctor._id },
+              })
+            }
+          >
+            <Text style={styles.buttonText}>Book Appointment</Text>
+          </TouchableOpacity>
+        )} */}
+        {/* book appointment button for patient */}
         {user?.role === "patient" && (
           <TouchableOpacity
             style={styles.button}
             onPress={() =>
-              navigation.navigate("BookAppointment", {
+              navigation.navigate("BookAppointmentScreen", {
                 doctorId: doctor._id,
               })
             }
@@ -234,6 +253,7 @@ const DoctorDetailsScreen = ({ navigation, route }) => {
 ================================ */}
 
         <View style={styles.buttonContainer}>
+          {/* edit doctor button */}
           {(user?.role === "admin" || user?.role === "superadmin") && (
             <TouchableOpacity
               style={styles.editButton}
@@ -246,17 +266,22 @@ const DoctorDetailsScreen = ({ navigation, route }) => {
               <Text style={styles.buttonText}>Edit Doctor</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity
-            style={styles.availabilityButton}
-            onPress={() =>
-              navigation.navigate("DoctorAvailabilityScreen", {
-                doctorId: doctor._id,
-              })
-            }
-          >
-            <Text style={styles.buttonText}>Manage Availability</Text>
-          </TouchableOpacity>
 
+          {/* doctor availability button */}
+          {(user?.role === "doctor" ||
+            user?.role === "admin" ||
+            user?.role === "superadmin") && (
+            <TouchableOpacity
+              style={styles.availabilityButton}
+              onPress={() =>
+                navigation.navigate("DoctorAvailabilityScreen", {
+                  doctorId: doctor._id,
+                })
+              }
+            >
+              <Text style={styles.buttonText}>Manage Availability</Text>
+            </TouchableOpacity>
+          )}
           {/* <TouchableOpacity
             style={styles.deleteButton}
             onPress={() =>

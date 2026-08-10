@@ -9,6 +9,8 @@ import DoctorDetailsScreen from "../../screens/mainScreens/doctorsScreen/DoctorD
 // import EditDoctorScreen from "../../screens/admin/doctors/EditDoctorScreen";
 import DoctorAvailabilityScreen from "../../screens/admin/doctors/DoctorAvailabilityScreen";
 
+// import BookAppointmentScreen from "../../screens/mainScreens/appointmentScreen/BookAppointmentScreen";
+
 const Stack = createNativeStackNavigator();
 
 const DoctorStack = () => {
@@ -30,8 +32,8 @@ const DoctorStack = () => {
       <Stack.Screen name="EditDoctor" component={EditDoctorScreen} />
 
       {/* <Stack.Screen
-        name="DoctorAvailability"
-        component={DoctorAvailabilityScreen}
+        name="BookAppointmentScreen"
+        component={BookAppointmentScreen}
       /> */}
       <Stack.Screen
         name="DoctorAvailabilityScreen"

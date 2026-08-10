@@ -18,11 +18,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  resetPassword,
-  resendOTP,
-  clearError,
-} from "../../redux/authSlice";
+import { resetPassword, resendOTP, clearError } from "../../../redux/authSlice";
 
 import styles from "./ResetPasswordScreen.css";
 
@@ -217,13 +213,20 @@ const ResetPasswordScreen = ({ navigation, route }) => {
     if (!validateForm()) return;
 
     const code = otp.join("");
-
+// console.log("Payload being sent:", { email, otp: code, password });
     const result = await dispatch(
       resetPassword({
+        // email,
+        // otp: code,
+        // password,
+
         email,
-        otp: code,
+        code: code, // backend might expect 'code' instead of 'otp'
+        otp: code, // keep both to be safe
+        newPassword: password, // backend might expect 'newPassword'
         password,
-      })
+        confirmPassword,
+      }),
     );
 
     if (
@@ -290,42 +293,31 @@ const ResetPasswordScreen = ({ navigation, route }) => {
 
         <View style={styles.header}>
           <Image
-            source={require("../../../assets/images/logo1.png")}
+            source={require("../../../../assets/images/logo1.png")}
             style={styles.logo}
             resizeMode="contain"
           />
 
-          <Text style={styles.logoText}>
-            MEDCARE
-          </Text>
+          <Text style={styles.logoText}>MEDCARE</Text>
         </View>
 
         {/* ================= FORM ================= */}
 
         <View style={styles.formContainer}>
-
-          <Text style={styles.title}>
-            Reset Password
-          </Text>
+          <Text style={styles.title}>Reset Password</Text>
 
           <Text style={styles.subtitle}>
             Enter the verification code sent to
           </Text>
 
-          <Text style={styles.email}>
-            {email}
-          </Text>
+          <Text style={styles.email}>{email}</Text>
 
           {/* ================= OTP ================= */}
 
-          <Text style={styles.label}>
-            Verification Code
-          </Text>
+          <Text style={styles.label}>Verification Code</Text>
 
           <View style={styles.otpContainer}>
-
             {otp.map((digit, index) => (
-
               <TextInput
                 key={index}
                 ref={(ref) => (inputRefs.current[index] = ref)}
@@ -334,62 +326,43 @@ const ResetPasswordScreen = ({ navigation, route }) => {
                 maxLength={1}
                 value={digit}
                 onChangeText={(value) => {
-
                   if (value.length > 1) {
                     handlePaste(value);
                   } else {
                     handleOTPChange(value, index);
                   }
-
                 }}
-                onKeyPress={(e) =>
-                  handleKeyPress(e, index)
-                }
+                onKeyPress={(e) => handleKeyPress(e, index)}
               />
-
             ))}
-
           </View>
 
           {/* ================= TIMER ================= */}
 
           <View style={styles.timerContainer}>
-
             <Text style={styles.timerText}>
-
               {seconds > 0
                 ? `Resend code in ${seconds}s`
                 : "Didn't receive the code?"}
-
             </Text>
 
-            <TouchableOpacity
-              disabled={seconds > 0}
-              onPress={handleResendOTP}
-            >
-
+            <TouchableOpacity disabled={seconds > 0} onPress={handleResendOTP}>
               <Text
                 style={[
                   styles.resendText,
-                  seconds > 0 &&
-                    styles.disabledResend,
+                  seconds > 0 && styles.disabledResend,
                 ]}
               >
                 Resend Code
               </Text>
-
             </TouchableOpacity>
-
           </View>
 
           {/* ================= PASSWORD ================= */}
 
-          <Text style={styles.label}>
-            New Password
-          </Text>
+          <Text style={styles.label}>New Password</Text>
 
           <View style={styles.passwordContainer}>
-
             <TextInput
               placeholder="Enter new password"
               secureTextEntry={!showPassword}
@@ -398,34 +371,20 @@ const ResetPasswordScreen = ({ navigation, route }) => {
               onChangeText={setPassword}
             />
 
-            <TouchableOpacity
-              onPress={() =>
-                setShowPassword(!showPassword)
-              }
-            >
-
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <MaterialCommunityIcons
-                name={
-                  showPassword
-                    ? "eye"
-                    : "eye-off"
-                }
+                name={showPassword ? "eye" : "eye-off"}
                 size={22}
                 color="#4880D8"
               />
-
             </TouchableOpacity>
-
           </View>
 
           {/* ================= CONFIRM PASSWORD ================= */}
 
-          <Text style={styles.label}>
-            Confirm Password
-          </Text>
+          <Text style={styles.label}>Confirm Password</Text>
 
           <View style={styles.passwordContainer}>
-
             <TextInput
               placeholder="Confirm password"
               secureTextEntry={!showConfirmPassword}
@@ -435,43 +394,24 @@ const ResetPasswordScreen = ({ navigation, route }) => {
             />
 
             <TouchableOpacity
-              onPress={() =>
-                setShowConfirmPassword(
-                  !showConfirmPassword
-                )
-              }
+              onPress={() => setShowConfirmPassword(!showConfirmPassword)}
             >
-
               <MaterialCommunityIcons
-                name={
-                  showConfirmPassword
-                    ? "eye"
-                    : "eye-off"
-                }
+                name={showConfirmPassword ? "eye" : "eye-off"}
                 size={22}
                 color="#4880D8"
               />
-
             </TouchableOpacity>
-
           </View>
 
           {/* ================= PASSWORD REQUIREMENTS ================= */}
 
           <View style={styles.passwordTips}>
+            <Text style={styles.tip}>• Minimum 8 characters</Text>
 
-            <Text style={styles.tip}>
-              • Minimum 8 characters
-            </Text>
+            <Text style={styles.tip}>• At least one uppercase letter</Text>
 
-            <Text style={styles.tip}>
-              • At least one uppercase letter
-            </Text>
-
-            <Text style={styles.tip}>
-              • At least one number
-            </Text>
-
+            <Text style={styles.tip}>• At least one number</Text>
           </View>
 
           {/* ================= BUTTON ================= */}
@@ -481,40 +421,23 @@ const ResetPasswordScreen = ({ navigation, route }) => {
             disabled={loading}
             onPress={handleResetPassword}
           >
-
             {loading ? (
-
               <ActivityIndicator color="#FFF" />
-
             ) : (
-
-              <Text style={styles.buttonText}>
-                Reset Password
-              </Text>
-
+              <Text style={styles.buttonText}>Reset Password</Text>
             )}
-
           </TouchableOpacity>
 
           {/* ================= LOGIN ================= */}
 
           <TouchableOpacity
             style={styles.loginContainer}
-            onPress={() =>
-              navigation.navigate("LoginScreen")
-            }
+            onPress={() => navigation.navigate("LoginScreen")}
           >
-
-            <Text style={styles.loginText}>
-              Back to Login
-            </Text>
-
+            <Text style={styles.loginText}>Back to Login</Text>
           </TouchableOpacity>
-
         </View>
-
       </ScrollView>
-
     </SafeAreaView>
   );
 

@@ -2,7 +2,9 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./authScreen/LoginScreen";
 import RegisterScreen from "./authScreen/RegisterScreen";
-
+import ForgotPasswordScreen from "./authScreen/ForgotPasswordScreen";
+import ResetPasswordScreen from "./authScreen/ResetPasswordScreen";
+import VerifyOTPScreen from "./authScreen/VerifyOTPScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -11,6 +13,15 @@ const AuthStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+      <Stack.Screen
+        name="ForgotPasswordScreen"
+        component={ForgotPasswordScreen}
+      />
+      <Stack.Screen
+        name="ResetPasswordScreen"
+        component={ResetPasswordScreen}
+      />
+      <Stack.Screen name="VerifyOTPScreen" component={VerifyOTPScreen} />
     </Stack.Navigator>
   );
 };

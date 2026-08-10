@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
-import { verifyOTP,resendOTP, } from "../../../redux/authSlice";
+import { verifyOTP, resendOTP } from "../../../redux/authSlice";
 import styles from "./VerifyOTPScreen.css";
 
 const VerifyOTPScreen = ({ navigation, route }) => {
@@ -20,14 +20,7 @@ const VerifyOTPScreen = ({ navigation, route }) => {
 
   const { email } = route.params;
 
-  const [otp, setOtp] = useState([
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-  ]);
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
   const [seconds, setSeconds] = useState(60);
 
@@ -65,10 +58,7 @@ const VerifyOTPScreen = ({ navigation, route }) => {
     const code = otp.join("");
 
     if (code.length !== 6) {
-      Alert.alert(
-        "Invalid OTP",
-        "Please enter all six digits."
-      );
+      Alert.alert("Invalid OTP", "Please enter all six digits.");
       return;
     }
 
@@ -76,75 +66,58 @@ const VerifyOTPScreen = ({ navigation, route }) => {
       verifyOTP({
         email,
         otp: code,
-      })
+      }),
     );
-//  console.log("Verify Result:", result);
+    //  console.log("Verify Result:", result);
 
     if (verifyOTP.fulfilled.match(result)) {
-      Alert.alert(
-        "Success",
-        "Account verified successfully."
-      );
+      Alert.alert("Success", "Account verified successfully.");
 
       navigation.reset({
         index: 0,
-        routes: [{ 
-      name: "MainScreenStack", 
-      params: { screen: "DashBoardScreens" } 
-    }],
+        routes: [
+          {
+            name: "MainScreenStack",
+            params: { screen: "DashBoardScreens" },
+          },
+        ],
       });
     }
 
     if (verifyOTP.rejected.match(result)) {
       Alert.alert(
         "Verification Failed",
-        result.payload?.message ||
-          "Invalid verification code."
+        result.payload?.message || "Invalid verification code.",
       );
     }
   };
 
- const handleResendOTP = async () => {
-  const result = await dispatch(
-    resendOTP(email)
-  );
+  const handleResendOTP = async () => {
+    const result = await dispatch(resendOTP(email));
 
-  if (resendOTP.fulfilled.match(result)) {
-    Alert.alert(
-      "Success",
-      "A new verification code has been sent."
-    );
+    if (resendOTP.fulfilled.match(result)) {
+      Alert.alert("Success", "A new verification code has been sent.");
 
-    setOtp(["", "", "", "", "", ""]);
-    setSeconds(60);
+      setOtp(["", "", "", "", "", ""]);
+      setSeconds(60);
 
-    if (inputs.current[0]) {
-      inputs.current[0].focus();
+      if (inputs.current[0]) {
+        inputs.current[0].focus();
+      }
     }
-  }
 
-  if (resendOTP.rejected.match(result)) {
-    Alert.alert(
-      "Error",
-      result.payload?.message ||
-        "Unable to resend OTP."
-    );
-  }
-};
+    if (resendOTP.rejected.match(result)) {
+      Alert.alert("Error", result.payload?.message || "Unable to resend OTP.");
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>
-        Verify Your Email
-      </Text>
+      <Text style={styles.title}>Verify Your Email</Text>
 
-      <Text style={styles.subtitle}>
-        Enter the verification code sent to
-      </Text>
+      <Text style={styles.subtitle}>Enter the verification code sent to</Text>
 
-      <Text style={styles.email}>
-        {email}
-      </Text>
+      <Text style={styles.email}>{email}</Text>
 
       <View style={styles.otpContainer}>
         {otp.map((digit, index) => (
@@ -155,36 +128,23 @@ const VerifyOTPScreen = ({ navigation, route }) => {
             value={digit}
             keyboardType="number-pad"
             maxLength={1}
-            onChangeText={(value) =>
-              handleOTPChange(value, index)
-            }
+            onChangeText={(value) => handleOTPChange(value, index)}
           />
         ))}
       </View>
 
-      {error && (
-        <Text style={styles.error}>
-          {error}
-        </Text>
-      )}
+      {error && <Text style={styles.error}>{error}</Text>}
 
       {seconds > 0 ? (
-        <Text style={styles.timer}>
-          Resend code in {seconds}s
-        </Text>
+        <Text style={styles.timer}>Resend code in {seconds}s</Text>
       ) : (
-        <TouchableOpacity
-    disabled={loading}
-    onPress={handleResendOTP}
->
-    {loading ? (
-        <ActivityIndicator color="#4880D8" />
-    ) : (
-        <Text style={styles.resend}>
-            Resend Code
-        </Text>
-    )}
-</TouchableOpacity>
+        <TouchableOpacity disabled={loading} onPress={handleResendOTP}>
+          {loading ? (
+            <ActivityIndicator color="#4880D8" />
+          ) : (
+            <Text style={styles.resend}>Resend Code</Text>
+          )}
+        </TouchableOpacity>
       )}
 
       <TouchableOpacity
@@ -195,9 +155,7 @@ const VerifyOTPScreen = ({ navigation, route }) => {
         {loading ? (
           <ActivityIndicator color="#FFF" />
         ) : (
-          <Text style={styles.buttonText}>
-            Verify
-          </Text>
+          <Text style={styles.buttonText}>Verify</Text>
         )}
       </TouchableOpacity>
     </SafeAreaView>

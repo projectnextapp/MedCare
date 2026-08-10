@@ -12,10 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  forgotPassword,
-  clearError,
-} from "../../redux/authSlice";
+import { forgotPassword, clearError } from "../../../redux/authSlice";
 
 import styles from "./ForgotPasswordScreen.css";
 
@@ -61,38 +58,105 @@ const ForgotPasswordScreen = ({ navigation }) => {
     return true;
   };
 
+  // const handleForgotPassword = async () => {
+  //   if (!validateEmail()) return;
+
+  //   const result = await dispatch(
+  //     forgotPassword({
+  //       email,
+  //     })
+  //   );
+
+  //   if (forgotPassword.fulfilled.match(result)) {
+  //     Alert.alert(
+  //       "Success",
+  //       "A password reset verification code has been sent to your email."
+  //     );
+
+  //     navigation.navigate(
+  //       "ResetPasswordScreen",
+  //       {
+  //         email,
+  //       }
+  //     );
+  //   }
+
+  //   if (forgotPassword.rejected.match(result)) {
+  //     Alert.alert(
+  //       "Error",
+  //       result.payload?.message ||
+  //         "Unable to send verification code."
+  //     );
+  //   }
+  // };
+
   const handleForgotPassword = async () => {
     if (!validateEmail()) return;
 
     const result = await dispatch(
       forgotPassword({
         email,
-      })
+      }),
     );
 
     if (forgotPassword.fulfilled.match(result)) {
       Alert.alert(
         "Success",
-        "A password reset verification code has been sent to your email."
-      );
-
-      navigation.navigate(
-        "ResetPasswordScreen",
-        {
-          email,
-        }
+        "A password reset verification code has been sent to your email.",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              navigation.navigate("ResetPasswordScreen", {
+                email: email,
+              });
+            },
+          },
+        ],
       );
     }
 
     if (forgotPassword.rejected.match(result)) {
       Alert.alert(
         "Error",
-        result.payload?.message ||
-          "Unable to send verification code."
+        result.payload?.message || "Unable to send verification code.",
       );
     }
   };
+  
+  
+  
+  // const handleForgotPassword = async () => {
+  //   if (!validateEmail()) return;
 
+  //   console.log("1. Button clicked");
+
+  //   try {
+  //     const result = await dispatch(forgotPassword({ email })).unwrap();
+
+  //     console.log("2. Request succeeded");
+  //     console.log(result);
+
+  //     Alert.alert("Success", "Verification code sent.", [
+  //       {
+  //         text: "OK",
+  //         onPress: () => {
+  //           console.log("3. Navigating...");
+  //           console.log(navigation.getState().routeNames);
+  //           navigation.navigate("ResetPasswordScreen", {
+  //             email,
+  //           });
+  //         },
+  //       },
+  //     ]);
+
+  //     console.log("4. Alert shown");
+  //   } catch (err) {
+  //     console.log("5. Error");
+  //     console.log(err);
+  //   }
+  // };
+  
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
@@ -103,32 +167,25 @@ const ForgotPasswordScreen = ({ navigation }) => {
 
         <View style={styles.header}>
           <Image
-            source={require("../../../assets/images/logo1.png")}
+            source={require("../../../../assets/images/logo1.png")}
             style={styles.logo}
             resizeMode="contain"
           />
 
-          <Text style={styles.logoText}>
-            MEDCARE
-          </Text>
+          <Text style={styles.logoText}>MEDCARE</Text>
         </View>
 
         {/* Form */}
 
         <View style={styles.formContainer}>
-          <Text style={styles.title}>
-            Forgot Password
-          </Text>
+          <Text style={styles.title}>Forgot Password</Text>
 
           <Text style={styles.subtitle}>
-            Enter your registered email address.
-            We will send a verification code
-            to reset your password.
+            Enter your registered email address. We will send a verification
+            code to reset your password.
           </Text>
 
-          <Text style={styles.label}>
-            Email Address
-          </Text>
+          <Text style={styles.label}>Email Address</Text>
 
           <TextInput
             placeholder="Enter your email"
@@ -149,21 +206,15 @@ const ForgotPasswordScreen = ({ navigation }) => {
             {loading ? (
               <ActivityIndicator color="#FFF" />
             ) : (
-              <Text style={styles.buttonText}>
-                Send Verification Code
-              </Text>
+              <Text style={styles.buttonText}>Send Verification Code</Text>
             )}
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() =>
-              navigation.goBack()
-            }
+            onPress={() => navigation.goBack()}
           >
-            <Text style={styles.backText}>
-              Back to Login
-            </Text>
+            <Text style={styles.backText}>Back to Login</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

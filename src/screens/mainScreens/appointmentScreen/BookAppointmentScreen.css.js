@@ -150,4 +150,171 @@ export default StyleSheet.create({
     marginBottom: 12,
     fontSize: 14,
   },
+
+// =========================================================
+// APPOINTMENT DAY / TIME SELECTION
+// =========================================================
+
+sectionTitle: {
+  fontSize: 18,
+  fontWeight: "700",
+  color: "#4880D8",
+  marginBottom: 6,
+},
+
+helperText: {
+  fontSize: 13,
+  color: "#6B7280",
+  marginBottom: 15,
+},
+
+selectionItem: {
+  flexDirection: "row",
+  alignItems: "center",
+
+  backgroundColor: "#F9FAFB",
+
+  borderWidth: 1,
+  borderColor: "#E5E7EB",
+
+  borderRadius: 12,
+
+  padding: 14,
+
+  marginBottom: 10,
+},
+
+selectionItemSelected: {
+  backgroundColor: "#EFF6FF",
+  borderColor: "#4880D8",
+},
+
+checkbox: {
+  width: 25,
+  height: 25,
+
+  borderRadius: 6,
+
+  borderWidth: 2,
+  borderColor: "#D1D5DB",
+
+  justifyContent: "center",
+  alignItems: "center",
+
+  marginRight: 12,
+},
+
+checkboxSelected: {
+  backgroundColor: "#4880D8",
+  borderColor: "#4880D8",
+},
+
+selectionTextContainer: {
+  flex: 1,
+},
+
+selectionTitle: {
+  fontSize: 16,
+  fontWeight: "700",
+  color: "#374151",
+},
+
+selectionTitleSelected: {
+  color: "#2563EB",
+},
+
+selectionSubtitle: {
+  fontSize: 13,
+  color: "#6B7280",
+  marginTop: 3,
+},
+
+availabilityTime: {
+  fontSize: 13,
+  color: "#4880D8",
+  fontWeight: "600",
+  marginTop: 5,
+},
+
+noAvailability: {
+  alignItems: "center",
+  justifyContent: "center",
+
+  backgroundColor: "#F9FAFB",
+
+  borderRadius: 12,
+
+  padding: 25,
+},
+
+noAvailabilityText: {
+  textAlign: "center",
+
+  fontSize: 14,
+
+  color: "#6B7280",
+
+  marginTop: 10,
+
+  lineHeight: 20,
+},
+
+// =========================================================
+// SELECTED APPOINTMENT SUMMARY
+// =========================================================
+
+summaryCard: {
+  flexDirection: "row",
+  alignItems: "center",
+
+  backgroundColor: "#EFF6FF",
+
+  borderWidth: 1,
+  borderColor: "#BFDBFE",
+
+  borderRadius: 14,
+
+  padding: 16,
+
+  marginBottom: 18,
+},
+
+summaryTextContainer: {
+  flex: 1,
+  marginLeft: 12,
+},
+
+summaryTitle: {
+  fontSize: 16,
+  fontWeight: "700",
+  color: "#1E40AF",
+  marginBottom: 5,
+},
+
+summaryText: {
+  fontSize: 14,
+  color: "#374151",
+  marginTop: 2,
+},
+
+// =========================================================
+// FORM LABELS
+// =========================================================
+
+fieldLabel: {
+  fontSize: 14,
+  fontWeight: "600",
+  color: "#374151",
+  marginBottom: 7,
+  marginTop: 5,
+},
+
+// =========================================================
+// BOOK BUTTON
+// =========================================================
+
+buttonDisabled: {
+  opacity: 0.6,
+},
+
 });

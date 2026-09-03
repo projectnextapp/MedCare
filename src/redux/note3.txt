@@ -1,0 +1,7 @@
+i think we should make it such that:
+
+
+
+from the doctor side( the doctor should be able to set it prefered date/time for the week)
+
+from the patient side(the patient should be able to see the various date/time set by the doctor and tick to select any for that week)

@@ -5,6 +5,9 @@ import RegisterScreen from "./authScreen/RegisterScreen";
 import ForgotPasswordScreen from "./authScreen/ForgotPasswordScreen";
 import ResetPasswordScreen from "./authScreen/ResetPasswordScreen";
 import VerifyOTPScreen from "./authScreen/VerifyOTPScreen";
+// import MainScreenStack from "../MainScreenStack"; 
+// import MainScreenStack from "../stacks/DashBoardScreenStack"
+
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +25,7 @@ const AuthStack = () => {
         component={ResetPasswordScreen}
       />
       <Stack.Screen name="VerifyOTPScreen" component={VerifyOTPScreen} />
+      {/* <Stack.Screen name="MainScreenStack" component={MainScreenStack} /> */}
     </Stack.Navigator>
   );
 };

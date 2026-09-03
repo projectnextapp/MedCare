@@ -1,104 +1,4 @@
-// import React from "react";
 
-// import { Platform } from "react-native";
-
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-// import Ionicons from "@expo/vector-icons/Ionicons";
-
-// import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-
-// import AddDoctorScreenr from "../../screens/admin/doctors/AddDoctorScreen";
-
-// // import DoctorStack from "../stacks/DoctorStack";
-
-// // import PatientStack from "../stacks/PatientStack";
-
-// // import ReportsScreen from "../../screens/admin/reports/ReportsScreen";
-
-// // import ProfileScreen from "../../screens/admin/profile/ProfileScreen";
-
-// const Tab = createBottomTabNavigator();
-
-// const AdminTabs = () => {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={({ route }) => ({
-//         headerShown: false,
-
-//         tabBarActiveTintColor: "#4880D8",
-
-//         tabBarInactiveTintColor: "#999",
-
-//         tabBarStyle: {
-//           paddingTop: 8,
-
-//           paddingBottom: Platform.OS === "ios" ? 25 : 12,
-
-//           minHeight: Platform.OS === "ios" ? 85 : 70,
-//         },
-
-//         tabBarIcon: ({ focused, color, size }) => {
-//           switch (route.name) {
-//             case "Dashboard":
-//               return (
-//                 <Ionicons
-//                   name={focused ? "grid" : "grid-outline"}
-//                   size={24}
-//                   color={color}
-//                 />
-//               );
-
-//             case "Doctors":
-//               return (
-//                 <MaterialCommunityIcons name="doctor" size={24} color={color} />
-//               );
-
-//             case "Patients":
-//               return (
-//                 <MaterialCommunityIcons
-//                   name="account-group"
-//                   size={24}
-//                   color={color}
-//                 />
-//               );
-
-//             case "Reports":
-//               return (
-//                 <Ionicons
-//                   name={focused ? "bar-chart" : "bar-chart-outline"}
-//                   size={24}
-//                   color={color}
-//                 />
-//               );
-
-//             case "Profile":
-//               return (
-//                 <Ionicons
-//                   name={focused ? "person" : "person-outline"}
-//                   size={24}
-//                   color={color}
-//                 />
-//               );
-//           }
-//         },
-//       })}
-//     >
-//       {/* <Tab.Screen name="Dashboard" component={DashboardScreen} /> */}
-//       <Tab.Screen name="Dashboard" component={() => "Dashboard" } />
-
-//       {/* <Tab.Screen name="Doctors" component={DoctorStack} /> */}
-
-//       {/* <Tab.Screen name="Patients" component={PatientStack} /> */}
-
-//       {/* <Tab.Screen name="Reports" component={ReportsScreen} /> */}
-
-//       {/* <Tab.Screen name="Profile" component={ProfileScreen} /> */}
-//     </Tab.Navigator>
-//   );
-// };
-
-// export default AdminTabs;
 
 import React from "react";
 import { Platform, View, Text, StyleSheet } from "react-native";
@@ -108,6 +8,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 // import AddDoctorScreen from "../../screens/admin/doctors/AddDoctorScreen";
 import AdminDoctorStack from "../stacks/AdminDoctorStack";
+import ProfileStack from "../stacks/ProfileStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -197,9 +98,10 @@ const AdminTabs = () => {
         {() => <DummyScreen title="Reports & Analytics" />}
       </Tab.Screen>
 
-      <Tab.Screen name="Profile">
+      <Tab.Screen name="Profile" component={ProfileStack} />
+      {/* <Tab.Screen name="Profile">
         {() => <DummyScreen title="Admin Profile" />}
-      </Tab.Screen>
+      </Tab.Screen> */}
     </Tab.Navigator>
   );
 };

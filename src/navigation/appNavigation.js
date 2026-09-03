@@ -259,6 +259,7 @@ export default function appNavigation() {
       <Stack.Screen name="FlashScreenStack" component={FlashScreenStack} />
       <Stack.Screen name="AuthScreenStack" component={AuthScreenStack} />
       <Stack.Screen name="MainScreenStack" component={MainScreenStack} />
+    
     </Stack.Navigator>
 
     

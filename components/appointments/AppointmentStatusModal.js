@@ -131,13 +131,22 @@ import { updateAppointmentStatus } from "../../src/redux/appointmentSlice";
 import styles from "./AppointmentStatusModal.css";
 
 // Must match your Mongoose schema enum exactly
+// const STATUS = [
+//   "Pending",
+//   "Accepted",
+//   "Rejected",
+//   "Completed",
+//   "Cancelled",
+//   "No Show",
+// ];
 const STATUS = [
+  "All",
   "Pending",
   "Accepted",
   "Rejected",
+  "No Show",
   "Completed",
   "Cancelled",
-  "No Show",
 ];
 
 const AppointmentStatusModal = ({

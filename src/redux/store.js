@@ -4,6 +4,8 @@ import authReducer from "./authSlice";
 import doctorReducer from "./doctorSlice";
 import appointmentReducer from "./appointmentSlice";
 import consultationReducer from "./consultationSlice";
+import prescriptionReducer from "./prescriptionSlice";
+import notificationReducer from "./notificationSlice";
 
 export default configureStore({
   reducer: {
@@ -12,5 +14,7 @@ export default configureStore({
     doctor: doctorReducer,
     appointment: appointmentReducer,
     consultation: consultationReducer,
+    prescription: prescriptionReducer,
+    notification: notificationReducer,
   },
 });

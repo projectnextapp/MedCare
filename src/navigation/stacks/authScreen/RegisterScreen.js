@@ -116,14 +116,21 @@ return true;
 const handleRegister=async()=>{
 
 if(!validateForm()) return;
-console.log("Form validated successfully! Sending request..."); 
+  console.log("Form validated successfully! Sending request..."); 
+  
+  console.log("=================================");
+  console.log("REGISTER EMAIL:", email);
+  console.log("REGISTER EMAIL LENGTH:", email.length);
+  console.log("REGISTER EMAIL TRIMMED:", email.trim());
+  console.log("=================================");
 const result=await dispatch(
 
 registerUser({
 
 fullname,
 
-email,
+  // email,
+email: email.trim().toLowerCase(),
 
 phone,
 

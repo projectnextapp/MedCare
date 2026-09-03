@@ -10,8 +10,13 @@ import PatientMyAppointmentsScreen from "../../screens/mainScreens/appointmentSc
 import DoctorAppointmentsScreen from "../../screens/doctorScreens/appointments/DoctorAppointmentsScreen";
 import DoctorAppointmentDetailsScreen from "../../screens/doctorScreens/appointments/DoctorAppointmentDetailsScreen";
 import AddConsultationNoteScreen from "../../screens/doctorScreens/appointments/AddConsultationNoteScreen";
-
+import WritePrescriptionScreen from "../../screens/doctorScreens/appointments/WritePrescriptionScreen";
+import PrescriptionDetailsScreen from "../../screens/doctorScreens/appointments/PrescriptionDetailsScreen";
 // import DoctorAppointmentsScreen from "../../screens/mainScreens/appointmentScreen/MyAppointmentsScreen";
+
+// delete import CreateMedicalRecordScreen from "../screens/Doctor/MedicalRecords/CreateMedicalRecordScreen/CreateMedicalRecordScreen";
+import CreateMedicalRecordScreen from "../../screens/doctorScreens/MedicalRecords/CreateMedicalRecordScreen/CreateMedicalRecordScreen";
+import PatientMedicalRecordScreen from "../../screens/doctorScreens/MedicalRecords/PatientMedicalRecord/PatientMedicalRecordScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +40,29 @@ const DoctorAppointmentsStack = () => {
       <Stack.Screen
         name="AddConsultationNoteScreen"
         component={AddConsultationNoteScreen}
+      />
+
+      <Stack.Screen
+        name="WritePrescriptionScreen"
+        component={WritePrescriptionScreen}
+      />
+
+      <Stack.Screen
+        name="PrescriptionDetails"
+        component={PrescriptionDetailsScreen}
+        options={{
+          title: "Prescription",
+        }}
+      />
+
+      <Stack.Screen
+        name="CreateMedicalRecordScreen"
+        component={CreateMedicalRecordScreen}
+      />
+
+      <Stack.Screen
+        name="PatientMedicalRecord"
+        component={PatientMedicalRecordScreen}
       />
       {/* <Stack.Screen
         name="PatientMyAppointmentsScreen"

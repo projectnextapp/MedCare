@@ -5,17 +5,18 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 // Import your screen components
-import DashBoardScreenStack from "../../screens/mainScreens/dashboardScreen/Dashboard";
+// import DashBoardScreenStack from "../../screens/mainScreens/dashboardScreen/Dashboard";
+import DashBoardScreenStack from "../stacks/DashBoardScreenStack";
 import DoctorListScreen from "../../screens/mainScreens/doctorsScreen/DoctorListScreen";
-// import DoctorDetailsScreen from "../../screens/mainScreens/doctorsScreen/DoctorDetailsScreen";
+
 import DoctorDetailsScreen from "../../screens/mainScreens/doctorsScreen/DoctorDetailsScreen";
 import BookAppointmentScreen from "../../screens/mainScreens/appointmentScreen/BookAppointmentScreen";
-import NotificationScreen from "../../screens/mainScreens/notificationScreen/NotificationScreen";
-// import ProfileScreen from "../../screens/profile/ProfileScreen";
+// import NotificationScreen from "../../screens/mainScreens/notificationScreen/NotificationScreen";
+import NotificationStack from "../stacks/NotificationStack";
+
 import ProfileStack from "../stacks/ProfileStack";
 
 import MyAppointmentsStack from "../stacks/MyAppointmentsStack";
-
 
 const TabNavigator = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -36,10 +37,6 @@ const DoctorStack = () => {
     </Stack.Navigator>
   );
 };
-
-
-
-  
 
 const PatientTabs = () => {
   return (
@@ -130,10 +127,8 @@ const PatientTabs = () => {
           title: "Appointment",
         }}
       />
-      <TabNavigator.Screen
-        name="Notifications"
-        component={NotificationScreen}
-      />
+
+      <TabNavigator.Screen name="Notifications" component={NotificationStack} />
       <TabNavigator.Screen name="Profile" component={ProfileStack} />
     </TabNavigator.Navigator>
   );

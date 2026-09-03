@@ -1,5 +1,3 @@
-
-
 import React, { useEffect } from "react";
 import {
   View,
@@ -186,7 +184,28 @@ const AppointmentDetailsScreen = ({ route, navigation }) => {
 
         {/* View Prescription */}
         {normalizedStatus === "completed" && (
-          <TouchableOpacity style={styles.prescriptionButton}>
+          <TouchableOpacity
+            style={styles.prescriptionButton}
+            // onPress={() =>
+            //   navigation.navigate("PatientPrescriptionDetails", {
+
+            //     prescriptionId: item._id,
+            //   })
+            // }
+            // onPress={() =>
+            //   navigation.navigate("PatientPrescriptions", {
+            //     prescriptionId: item._id,
+            //   })
+            // }
+            onPress={() =>
+              navigation.navigate("PatientPrescriptionDetails", {
+                prescriptionId:
+                  typeof appointment.prescription === "object"
+                    ? appointment.prescription._id
+                    : appointment.prescription,
+              })
+            }
+          >
             <MaterialCommunityIcons
               name="file-document"
               size={20}
@@ -212,4 +231,5 @@ const AppointmentDetailsScreen = ({ route, navigation }) => {
   );
 };
 
-export default AppointmentDetailsScreen;10
+export default AppointmentDetailsScreen;
+10;

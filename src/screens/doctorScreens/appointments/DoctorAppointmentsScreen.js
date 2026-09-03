@@ -20,7 +20,16 @@ import { fetchDoctorAppointments } from "../../../redux/appointmentSlice";
 
 import styles from "./DoctorAppointmentsScreen.css";
 
-const STATUS = ["All", "Pending", "Confirmed", "Completed", "Cancelled"];
+// const STATUS = ["All", "Pending", "Confirmed", "Completed", "Cancelled"];
+const STATUS = [
+  "All",
+  "Pending",
+  "Accepted",
+  "Rejected",
+  "No Show",
+  "Completed",
+  "Cancelled",
+];
 
 const DoctorAppointmentsScreen = ({ navigation }) => {
   const dispatch = useDispatch();

@@ -74,8 +74,8 @@ const RootNavigator = () => {
     case "doctor":
       return <DoctorTabs />;
 
-    // case "admin":
-    //   return <AdminTabs />;
+    case "admin":
+      return <AdminTabs />;
 
     case "superadmin":
       return <SuperAdminTabs />;

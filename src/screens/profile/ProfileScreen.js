@@ -96,6 +96,12 @@ const ProfileScreen = ({ navigation }) => {
           />
 
           <MenuItem
+            icon="clipboard-pulse-outline"
+            title="My Medical Records"
+            screen="PatientMedicalRecordsScreen"
+          />
+
+          <MenuItem
             icon="lock-reset"
             title="Change Password"
             screen="ChangePasswordScreen"

@@ -19,6 +19,10 @@ const VerifyOTPScreen = ({ navigation, route }) => {
   const { loading, error } = useSelector((state) => state.auth);
 
   const { email } = route.params;
+  console.log("=================================");
+  console.log("VERIFY SCREEN EMAIL:", email);
+  console.log("VERIFY SCREEN EMAIL LENGTH:", email?.length);
+  console.log("=================================");
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
@@ -57,6 +61,13 @@ const VerifyOTPScreen = ({ navigation, route }) => {
   const handleVerify = async () => {
     const code = otp.join("");
 
+    console.log("=================================");
+    console.log("VERIFY BUTTON CLICKED");
+    console.log("EMAIL BEING SENT:", email);
+    console.log("OTP BEING SENT:", code);
+    console.log("OTP LENGTH:", code.length);
+    console.log("=================================");
+
     if (code.length !== 6) {
       Alert.alert("Invalid OTP", "Please enter all six digits.");
       return;
@@ -78,6 +89,7 @@ const VerifyOTPScreen = ({ navigation, route }) => {
         routes: [
           {
             name: "MainScreenStack",
+            // params: { screen: "DashBoardScreens" },
             params: { screen: "DashBoardScreens" },
           },
         ],
@@ -92,24 +104,31 @@ const VerifyOTPScreen = ({ navigation, route }) => {
     }
   };
 
-  const handleResendOTP = async () => {
-    const result = await dispatch(resendOTP(email));
+ const handleResendOTP = async () => {
+   console.log("=================================");
+   console.log("RESEND BUTTON CLICKED");
+   console.log("EMAIL BEING SENT:", email);
+   console.log("=================================");
 
-    if (resendOTP.fulfilled.match(result)) {
-      Alert.alert("Success", "A new verification code has been sent.");
+   const result = await dispatch(resendOTP(email));
 
-      setOtp(["", "", "", "", "", ""]);
-      setSeconds(60);
+   console.log("RESEND RESULT:", result);
 
-      if (inputs.current[0]) {
-        inputs.current[0].focus();
-      }
-    }
+   if (resendOTP.fulfilled.match(result)) {
+     Alert.alert("Success", "A new verification code has been sent.");
 
-    if (resendOTP.rejected.match(result)) {
-      Alert.alert("Error", result.payload?.message || "Unable to resend OTP.");
-    }
-  };
+     setOtp(["", "", "", "", "", ""]);
+     setSeconds(60);
+
+     if (inputs.current[0]) {
+       inputs.current[0].focus();
+     }
+   }
+
+   if (resendOTP.rejected.match(result)) {
+     Alert.alert("Error", result.payload?.message || "Unable to resend OTP.");
+   }
+ };
 
   return (
     <SafeAreaView style={styles.container}>
